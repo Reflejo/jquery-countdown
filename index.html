@@ -9,10 +9,21 @@
     <script src="js/jquery.countdown.js" type="text/javascript" charset="utf-8"></script>
     <script type="text/javascript">
       $(function(){
-        $('#counter').countdown({image: 'img/digits.png'});
+        $('#counter').countdown({
+          image: 'img/digits.png',
+          startTime: '01:12:12:00'
+        });
+
+        $('#counter_2').countdown({
+          image: 'img/digits.png',
+          startTime: '00:10',
+          timerEnd: function(){ alert('end!'); },
+          format: 'mm:ss'
+        });
       });
     </script>
     <style type="text/css">
+      br { clear: both; }
       .cntSeparator {
         font-size: 54px;
         margin: 10px 7px;
@@ -35,6 +46,14 @@
   <div class="desc">
     <div>Días</div>
     <div>Horas</div>
+    <div>Minutos</div>
+    <div>Segundos</div>
+  </div>
+  <br />
+  <br />
+  <br />
+  <div id="counter_2"></div>
+  <div class="desc">
     <div>Minutos</div>
     <div>Segundos</div>
   </div>

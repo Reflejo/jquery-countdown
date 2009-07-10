@@ -10,11 +10,14 @@ jQuery.fn.countdown = function(userOptions)
   // Default options
   var options = {
     stepTime: 60,
-    // startTime should follow dd:hh:mm:ss format
+    // startTime and format MUST follow the same format.
+    // also you cannot specify a format unordered (e.g. hh:ss:mm is wrong)
+    format: "dd:hh:mm:ss",
     startTime: "01:12:32:55",
     digitImages: 6,
     digitWidth: 53,
     digitHeight: 77,
+    timerEnd: function(){},
     image: "digits.png"
   };
   var digits = [], interval;
@@ -40,21 +43,24 @@ jQuery.fn.countdown = function(userOptions)
         // Add max digits, for example, first digit of minutes (mm) has 
         // a max of 5. Conditional max is used when the left digit has reach
         // the max. For example second "hours" digit has a conditional max of 4 
-        switch (c) {
-          case 3: 
-            digits[c].__condmax = 4;
+        switch (options.format[i]) {
+          case 'h':
+            digits[c].__max = (c % 2 == 0) ? 2: 9;
+            if (c % 2 == 0)
+              digits[c].__condmax = 4;
             break;
-          case 2:
-            digits[c].__max = 2;
+          case 'd': 
+            digits[c].__max = 9;
             break;
-          case 4:
-          case 6:
-            digits[c].__max = 5;
+          case 'm':
+          case 's':
+            digits[c].__max = (c % 2 == 0) ? 5: 9;
         }
         ++c;
       }
       else 
-        elem = $('<div class="cntSeparator"/>').css({float: 'left'}).text(options.startTime[i]);
+        elem = $('<div class="cntSeparator"/>').css({float: 'left'})
+                .text(options.startTime[i]);
 
       where.append(elem)
     }
@@ -78,6 +84,13 @@ jQuery.fn.countdown = function(userOptions)
       if (mtop == options.digitHeight) {
         margin(elem, digits[elem]._digitInitial);
         if (elem > 0) moveStep(elem - 1)();
+        else 
+        {
+          clearInterval(interval);
+          for (var i=0; i < digits.length; i++) margin(i, 0);
+          options.timerEnd();
+          return;
+        }
         if ((elem > 0) && (digits[elem].__condmax !== undefined) && 
             (digits[elem - 1]._digitInitial == margin(elem - 1)))
           margin(elem, -(digits[elem].__condmax * options.digitHeight * options.digitImages));
