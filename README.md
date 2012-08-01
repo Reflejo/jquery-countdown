@@ -1,6 +1,6 @@
 Take a look to the [demostration](http://reflejo.github.com/jquery-countdown/). This countdown has an amazing animation.
 
-This project is still at beta stage, and probably it will remain that way :(.
+This project is still at beta stage, and probably it will remain that way :(. Now you can download the PSD file (It's [here](https://github.com/Reflejo/jquery-countdown/blob/master/img/digits.psd))
 
 ### Basic usage:
 
