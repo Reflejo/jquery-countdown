@@ -21,8 +21,7 @@ jQuery.fn.countdown = function(userOptions)
     timerEnd: function(){},
     image: "digits.png"
   };
-  var digits = [], interval;
-  var forceStop = false;
+  var digits = [], intervals = [];
 
   // Draw digits in given container
   var createDigits = function(where)
@@ -41,9 +40,11 @@ jQuery.fn.countdown = function(userOptions)
           width: options.digitWidth
         });
 
+        elem.current = parseInt(options.startTime[i]);
         digits.push(elem);
-        margin(c, -((parseInt(options.startTime[i]) * options.digitHeight *
-                              options.digitImages)));
+
+        margin(c, -elem.current * options.digitHeight * options.digitImages);
+
         // Add max digits, for example, first digit of minutes (mm) has
         // a max of 5. Conditional max is used when the left digit has reach
         // the max. For example second "hours" digit has a conditional max of 4
@@ -90,37 +91,49 @@ jQuery.fn.countdown = function(userOptions)
 
   var makeMovement = function(elem, steps, isForward)
   {
+    // Stop any other movement over the same digit.
+    if (intervals[elem])
+      window.clearInterval(intervals[elem]);
+
+    // Move to the initial position (We force that because in chrome
+    // there are some scenarios where digits lost sync)
+    var initialPos = -(options.digitHeight * options.digitImages *
+                       digits[elem].current);
+    margin(elem, initialPos);
+    digits[elem].current = digits[elem].current + ((isForward) ? steps: -steps);
+
     var x = 0;
-    var intervalID = setInterval(function () {
-      if (forceStop || (x++ === options.digitImages * steps))
-        return window.clearInterval(intervalID);
+    intervals[elem] = setInterval(function(){
+      if (x++ === options.digitImages * steps)
+      {
+        window.clearInterval(intervals[elem]);
+        delete intervals[elem];
+        return;
+      }
 
       var diff = isForward ? -options.digitHeight: options.digitHeight;
-      margin(elem, margin(elem) + diff);
+      margin(elem, initialPos + (x * diff));
     }, options.stepTime / steps);
   };
 
   // Makes the movement. This is done by "digitImages" steps.
   var moveDigit = function(elem)
   {
-    // If there is no argument, we'll move the last digit (the most active one)
-    elem = (elem === undefined) ? digits.length - 1: elem;
-
-    if (margin(elem) == 0)
+    if (digits[elem].current == 0)
     {
       // Is there still time left?
       if (elem > 0)
       {
-        var isStart = margin(elem - 1) == 0;
+        var isStart = (digits[elem - 1].current == 0);
+
         makeMovement(elem, digits[elem]._max(elem, isStart), true);
         moveDigit(elem - 1);
       }
       else // That condition means that we reach the end! 00:00.
       {
-        forceStop = true;
-        clearInterval(interval);
         for (var i = 0; i < digits.length; i++)
         {
+          clearInterval(intervals[i]);
           margin(i, 0);
         }
         options.timerEnd();
@@ -134,5 +147,6 @@ jQuery.fn.countdown = function(userOptions)
 
   $.extend(options, userOptions);
   createDigits(this);
-  interval = setInterval(moveDigit, 1000);
+  intervals.main = setInterval(function(){ moveDigit(digits.length - 1); },
+                               1000);
 };
