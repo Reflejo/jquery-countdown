@@ -1,0 +1,31 @@
+html, body, .wrapper {
+  height: 100%;
+  width: 100%;
+}
+  body { background: url(../img/bg-tile.png) repeat; }
+
+.wrapper { display: table; }
+
+.cell {
+  display: table-cell;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+}
+
+#holder {
+  background: url(../img/time-placeholder.png) no-repeat;
+  width: 383px;
+  height: 383px;
+  margin: auto;
+}
+
+.cntSeparator { display: none; }
+
+.cntDigit {
+  margin-top: 148px !important;
+}
+
+  .cntDigit#cnt_0 { margin-left: 52px; }
+  .cntDigit#cnt_2 { margin-left: 7px; }
