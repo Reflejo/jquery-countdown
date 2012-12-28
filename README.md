@@ -23,6 +23,18 @@ This project is still at beta stage, and probably it will remain that way :(. No
   });
 ```
 
+### Added continuously countdown
+
+```javascript
+  $('#counter').countdown({
+    format: 'sss',
+    startTime: "120",
+    continuous: true,
+    timerEnd: function() { alert('end!!'); },
+    image: "digits.png"
+  });
+```
+
 Did I mention that js code weighs just **1.7 KB**?
 
 ### Author

@@ -4,6 +4,9 @@
  * Copyright (c) 2009 Martin Conte Mac Donell <Reflejo@gmail.com>
  * Dual licensed under the MIT and GPL licenses.
  * http://docs.jquery.com/License
+ *
+ * Forked by Lito in Github
+ * https://github.com/eusonlito/jquery-countdown
  */
 
 jQuery.fn.countdown = function(userOptions)
@@ -19,7 +22,8 @@ jQuery.fn.countdown = function(userOptions)
     digitWidth: 67,
     digitHeight: 90,
     timerEnd: function(){},
-    image: "digits.png"
+    image: "digits.png",
+    continuous: false
   };
   var digits = [], intervals = [];
 
@@ -45,26 +49,34 @@ jQuery.fn.countdown = function(userOptions)
 
         margin(c, -elem.current * options.digitHeight * options.digitImages);
 
-        // Add max digits, for example, first digit of minutes (mm) has
-        // a max of 5. Conditional max is used when the left digit has reach
-        // the max. For example second "hours" digit has a conditional max of 4
-        switch (options.format[i]) 
+        if (options.continuous === true)
         {
-          case 'h':
-            digits[c]._max = function(pos, isStart) {
-              if (pos % 2 == 0)
-                return 2;
-              else
-                return (isStart) ? 3: 9;
-            };
-            break;
-          case 'd':
-            digits[c]._max = function(){ return 9; };
-            break;
-          case 'm':
-          case 's':
-            digits[c]._max = function(pos){ return (pos % 2 == 0) ? 5: 9; };
+          digits[c]._max = function(){ return 9; };
         }
+        else
+        {
+          // Add max digits, for example, first digit of minutes (mm) has
+          // a max of 5. Conditional max is used when the left digit has reach
+          // the max. For example second "hours" digit has a conditional max of 4
+          switch (options.format[i]) 
+          {
+            case 'h':
+              digits[c]._max = function(pos, isStart) {
+                if (pos % 2 == 0)
+                  return 2;
+                else
+                  return (isStart) ? 3: 9;
+              };
+              break;
+            case 'd':
+              digits[c]._max = function(){ return 9; };
+              break;
+            case 'm':
+            case 's':
+              digits[c]._max = function(pos){ return (pos % 2 == 0) ? 5: 9; };
+          }
+        }
+
         ++c;
       }
       else
@@ -134,6 +146,7 @@ jQuery.fn.countdown = function(userOptions)
         for (var i = 0; i < digits.length; i++)
         {
           clearInterval(intervals[i]);
+          clearInterval(intervals.main);
           margin(i, 0);
         }
         options.timerEnd();
