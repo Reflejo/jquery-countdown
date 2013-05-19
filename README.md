@@ -39,7 +39,7 @@ Did I mention that js code weighs just **1.7 KB**?
 
 ### Author
 
-Martín Conte Mac Donell <Reflejo@gmail.com> - [@Reflejo](https://twitter.com/reflejo)
+Martín Conte Mac Donell <Reflejo@gmail.com> - [@fz](https://twitter.com/fz)
 
 ### Demo
 
