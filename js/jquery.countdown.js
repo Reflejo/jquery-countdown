@@ -209,7 +209,7 @@ jQuery.fn.countdown = function(userOptions)
     	format = format.substr(3);
     }
     // return our constructed date object
-    return new Date([m, d, y].join('/') + ' ' + [h, mm, s].map(pad).join(':'));
+    return new Date([m, d, y].join('/') + ' ' + [h, mm, s].map(pad).join(':') + ' GMT-0900');
   };
   
   // if an endTime is provided...
