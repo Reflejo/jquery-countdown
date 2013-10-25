@@ -35,6 +35,29 @@ This project is still at beta stage, and probably it will remain that way :(. No
   });
 ```
 
+###Countdown to a Date
+
+Relative to current hour:
+
+```javascript
+  $('#counter').countdown({
+    image: "digits.png",
+    format: "mm:ss",
+    endTime: '50:00'
+  });
+```
+
+An absolute date:
+
+
+```javascript
+  $('#counter').countdown({
+    image: "digits.png",
+    format: "mm:ss",
+    endTime: new Date('07/16/13 05:00:00')
+  });
+```
+
 Did I mention that js code weighs just **1.7 KB**?
 
 ### Author

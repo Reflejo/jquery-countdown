@@ -157,7 +157,70 @@ jQuery.fn.countdown = function(userOptions)
 
     makeMovement(elem, 1);
   };
-
+  
+  // add leading zeros
+  var pad = function(x){return (1e15+""+x).substr(-2)};
+  
+  // convert a date object to the format specified
+  var formatCompute = function(d) {
+  	var format = userOptions.format||options.format;
+  	var parse = {
+  		d: d.getDate(),
+  		h: d.getHours(),
+  		m: d.getMinutes(),
+  		s: d.getSeconds()
+  	};
+  	return format.replace(/(dd|hh|mm|ss)/g, function($0, form) {
+  		return pad(parse[form[0]]);
+  	});
+  };
+  
+  // parses a date of the form hh:mm:ss, for example, where
+  // ... precision is the same as the format.
+  var parseRelativeDate = function(form) {
+    // give the date the values of now by default
+  	var now = new Date();
+  	var d = now.getDate();
+  	var m = now.getMonth() + 1;
+  	var y = now.getFullYear();
+  	var h = now.getHours(), mm, s;
+  
+    // read in components and render based on format
+    var format = userOptions.format||options.format;
+    var parts = form.split(':');
+    if( format.indexOf('dd') == 0 ) {
+    	d = parts[0];
+    	parts = parts.slice(1);
+    	format = format.substr(3);
+    }
+    if( format.indexOf('hh') == 0 ) {
+    	h = parts[0];
+    	parts = parts.slice(1);
+    	format = format.substr(3);
+    }
+    if( format.indexOf('mm') == 0 ) {
+    	mm = parts[0];
+    	parts = parts.slice(1);
+    	format = format.substr(3);
+    }
+    if( format.indexOf('ss') == 0 ) {
+    	s = parts[0];
+    	parts = parts.slice(1);
+    	format = format.substr(3);
+    }
+    // return our constructed date object
+    return new Date([m, d, y].join('/') + ' ' + [h, mm, s].map(pad).join(':') + ' GMT-0900');
+  };
+  
+  // if an endTime is provided...
+  if( userOptions.endTime ) {  	
+    // calculate the difference between endTime and present time
+    var endDate = userOptions.endTime instanceof Date ? userOptions.endTime : parseRelativeDate(userOptions.endTime);
+  	var diff = endDate.getTime() - (new Date()).getTime();
+  	// and set that as the startTime
+    userOptions.startTime = formatCompute(new Date(diff));
+	delete userOptions.endTime;
+  }
   $.extend(options, userOptions);
   createDigits(this);
   intervals.main = setInterval(function(){ moveDigit(digits.length - 1); },
