@@ -58,7 +58,7 @@ jQuery.fn.countdown = function(userOptions)
           // Add max digits, for example, first digit of minutes (mm) has
           // a max of 5. Conditional max is used when the left digit has reach
           // the max. For example second "hours" digit has a conditional max of 4
-          switch (options.format[i]) 
+          switch (options.format[i])
           {
             case 'h':
               digits[c]._max = function(pos, isStart) {
@@ -157,24 +157,24 @@ jQuery.fn.countdown = function(userOptions)
 
     makeMovement(elem, 1);
   };
-  
+
   // add leading zeros
   var pad = function(x){return (1e15+""+x).substr(-2)};
-  
+
   // convert a date object to the format specified
   var formatCompute = function(d) {
   	var format = userOptions.format||options.format;
   	var parse = {
-  		d: d.getDate(),
-  		h: d.getHours(),
-  		m: d.getMinutes(),
-  		s: d.getSeconds()
+      d: d.getUTCDate() - 1,
+      h: d.getUTCHours(),
+      m: d.getUTCMinutes(),
+      s: d.getUTCSeconds()
   	};
   	return format.replace(/(dd|hh|mm|ss)/g, function($0, form) {
   		return pad(parse[form[0]]);
   	});
   };
-  
+
   // parses a date of the form hh:mm:ss, for example, where
   // ... precision is the same as the format.
   var parseRelativeDate = function(form) {
@@ -184,7 +184,7 @@ jQuery.fn.countdown = function(userOptions)
   	var m = now.getMonth() + 1;
   	var y = now.getFullYear();
   	var h = now.getHours(), mm, s;
-  
+
     // read in components and render based on format
     var format = userOptions.format||options.format;
     var parts = form.split(':');
@@ -211,9 +211,9 @@ jQuery.fn.countdown = function(userOptions)
     // return our constructed date object
     return new Date([m, d, y].join('/') + ' ' + [h, mm, s].map(pad).join(':') + ' GMT-0900');
   };
-  
+
   // if an endTime is provided...
-  if( userOptions.endTime ) {  	
+  if( userOptions.endTime ) {
     // calculate the difference between endTime and present time
     var endDate = userOptions.endTime instanceof Date ? userOptions.endTime : parseRelativeDate(userOptions.endTime);
   	var diff = endDate.getTime() - (new Date()).getTime();
