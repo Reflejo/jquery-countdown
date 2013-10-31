@@ -165,10 +165,10 @@ jQuery.fn.countdown = function(userOptions)
   var formatCompute = function(d) {
   	var format = userOptions.format||options.format;
   	var parse = {
-  		d: d.getDate() - 1, // date can not be zero
-  		h: d.getHours(),
-  		m: d.getMinutes(),
-  		s: d.getSeconds()
+      d: d.getUTCDate() - 1,
+      h: d.getUTCHours(),
+      m: d.getUTCMinutes(),
+      s: d.getUTCSeconds()
   	};
   	return format.replace(/(dd|hh|mm|ss)/g, function($0, form) {
   		return pad(parse[form[0]]);
