@@ -1,3 +1,5 @@
+# jQuery Countdown
+
 jQuery Countdown is a countdown library with an amazing animation. Take a look
 at the [demonstration](http://reflejo.github.com/jquery-countdown/)
 
@@ -63,8 +65,8 @@ Did I mention that js code weighs just **2.8 KB**?
 
 ### Developers
 
-Martín Conte Mac Donell <Reflejo@gmail.com> - [@fz](https://twitter.com/fz)
-[Matt Neary](mattneary.com) <neary.matt@gmail.com>
+- Martín Conte Mac Donell <Reflejo@gmail.com> - [@fz](https://twitter.com/fz)
+- [Matt Neary](mattneary.com) <neary.matt@gmail.com>
 
 ### Demo
 
