@@ -7,7 +7,6 @@
  *
  */
 
-
 // Draw digits in given container
 var createDigits = function(where, options) {
   var counter = 0;
