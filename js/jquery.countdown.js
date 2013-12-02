@@ -9,16 +9,14 @@
 
 
 // Draw digits in given container
-var createDigits = function(where, options)
-{
-  var c = 0;
+var createDigits = function(where, options) {
+  var counter = 0;
   // Iterate each startTime digit, if it is not a digit
   // we'll asume that it's a separator
-  for (var i = 0; i < options.startTime.length; i++)
-  {
-    if (parseInt(options.startTime[i]) >= 0)
-    {
-      elem = $('<div id="cnt_' + c + '" class="cntDigit" />').css({
+  var mFirstPos, sFirstPos;
+  for (var i = 0; i < options.startTime.length; i++) {
+    if (parseInt(options.startTime[i]) >= 0) {
+      elem = $('<div id="cnt_' + counter + '" class="cntDigit" />').css({
 	height: options.digitHeight,
 	float: 'left',
 	background: 'url(\'' + options.image + '\')',
@@ -28,21 +26,17 @@ var createDigits = function(where, options)
       elem.current = parseInt(options.startTime[i]);
       digits.push(elem);
 
-      margin(c, -elem.current * options.digitHeight * options.digitImages);
+      margin(counter, -elem.current * options.digitHeight * options.digitImages);
 
-      if (options.continuous === true)
-      {
-	digits[c]._max = function(){ return 9; };
-      }
-      else
-      {
+      if (options.continuous === true) {
+	digits[counter]._max = function() { return 9; };
+      } else {
 	// Add max digits, for example, first digit of minutes (mm) has
 	// a max of 5. Conditional max is used when the left digit has reach
 	// the max. For example second "hours" digit has a conditional max of 4
-	switch (options.format[i])
-	{
+	switch (options.format[i]) {
 	  case 'h':
-	    digits[c]._max = function(pos, isStart) {
+	    digits[counter]._max = function(pos, isStart) {
 	      if (pos % 2 == 0)
 		return 2;
 	      else
@@ -50,28 +44,32 @@ var createDigits = function(where, options)
 	    };
 	    break;
 	  case 'd':
-	    digits[c]._max = function(){ return 9; };
+	    digits[counter]._max = function() { return 9; };
 	    break;
 	  case 'm':
+	    digits[counter]._max = function(pos) {
+	      if(!mFirstPos) { mFirstPos = pos; } 
+	      return pos == mFirstPos ? 9 : 5;
+	    };
+	    break;
 	  case 's':
-	    digits[c]._max = function(pos){ return (pos % 2 == 0) ? 5: 9; };
+	    digits[counter]._max = function(pos) {
+	      if(!sFirstPos) { sFirstPos = pos; } 
+	      return pos == sFirstPos ? 9 : 5;
+	    };
 	}
       }
 
-      ++c;
-    }
-    else
-    {
+      counter += 1;
+    } else {
       elem = $('<div class="cntSeparator"/>').css({float: 'left'})
 					     .text(options.startTime[i]);
     }
-
     where.append(elem)
   }
 };
 
-var makeMovement = function(elem, steps, isForward, options)
-{
+var makeMovement = function(elem, steps, isForward, options) {
   // Stop any other movement over the same digit.
   if (intervals[elem])
     window.clearInterval(intervals[elem]);
@@ -84,9 +82,8 @@ var makeMovement = function(elem, steps, isForward, options)
   digits[elem].current = digits[elem].current + ((isForward) ? steps: -steps);
 
   var x = 0;
-  intervals[elem] = setInterval(function(){
-    if (x++ === options.digitImages * steps)
-    {
+  intervals[elem] = setInterval(function() {
+    if (x++ === options.digitImages * steps) {
       window.clearInterval(intervals[elem]);
       delete intervals[elem];
       return;
@@ -98,10 +95,8 @@ var makeMovement = function(elem, steps, isForward, options)
 };
 
 // Set or get element margin
-var margin = function(elem, val)
-{
-  if (val !== undefined)
-  {
+var margin = function(elem, val) {
+  if (val !== undefined) {
     digits[elem].margin = val;
     return digits[elem].css({'backgroundPosition': '0 ' + val + 'px'});
   }
@@ -111,32 +106,24 @@ var margin = function(elem, val)
 
 
 // Makes the movement. This is done by "digitImages" steps.
-var moveDigit = function(elem, options)
-{
-  if (digits[elem].current == 0)
-  {
+var moveDigit = function(elem, options) {
+  if (digits[elem].current == 0) {
     // Is there still time left?
-    if (elem > 0)
-    {
+    if (elem > 0) {
       var isStart = (digits[elem - 1].current == 0);
 
       makeMovement(elem, digits[elem]._max(elem, isStart), true, options);
       moveDigit(elem - 1, options);
-    }
-    else // That condition means that we reach the end! 00:00.
-    {
-      for (var i = 0; i < digits.length; i++)
-      {
+    } else { // That condition means that we reach the end! 00:00.
+      for (var i = 0; i < digits.length; i++) {
 	clearInterval(intervals[i]);
 	clearInterval(intervals.main);
 	margin(i, 0);
       }
       options.timerEnd();
     }
-
     return;
   }
-
   makeMovement(elem, 1, false, options);
 };
 
@@ -199,8 +186,7 @@ var pad = function(x){return (1e15+""+x).substr(-2)};
 
 var digits = [];
 var intervals = [];
-jQuery.fn.countdown = function(userOptions)
-{
+jQuery.fn.countdown = function(userOptions) {
   // Default options
   var options = {
     stepTime: 60,
