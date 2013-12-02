@@ -1,6 +1,7 @@
-Take a look to the [demostration](http://reflejo.github.com/jquery-countdown/). This countdown has an amazing animation.
+jQuery Countdown is a countdown library with an amazing animation. Take a look
+at the [demonstration](http://reflejo.github.com/jquery-countdown/)
 
-This project is still at beta stage, and probably it will remain that way :(. Now you can download the PSD file (It's [here](https://github.com/Reflejo/jquery-countdown/blob/master/img/digits.psd))
+Now you can download the PSD file [here](https://github.com/Reflejo/jquery-countdown/blob/master/img/digits.psd).
 
 ### Basic usage:
 
@@ -23,7 +24,7 @@ This project is still at beta stage, and probably it will remain that way :(. No
   });
 ```
 
-### Added continuously countdown
+### Added continuous countdown
 
 ```javascript
   $('#counter').countdown({
@@ -35,7 +36,7 @@ This project is still at beta stage, and probably it will remain that way :(. No
   });
 ```
 
-###Countdown to a Date
+### Countdown to a Date
 
 Relative to current hour:
 
@@ -58,12 +59,14 @@ An absolute date:
   });
 ```
 
-Did I mention that js code weighs just **1.7 KB**?
+Did I mention that js code weighs just **2.8 KB**?
 
-### Author
+### Developers
 
 Martín Conte Mac Donell <Reflejo@gmail.com> - [@fz](https://twitter.com/fz)
+[Matt Neary](mattneary.com) <neary.matt@gmail.com>
 
 ### Demo
 
-See the [demo](http://reflejo.github.com/jquery-countdown/) !!.
+Look at the [demo](http://reflejo.github.com/jquery-countdown/).
+
