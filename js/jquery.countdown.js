@@ -131,7 +131,7 @@ var moveDigit = function(elem, options) {
 
 // parses a date of the form hh:mm:ss, for example, where
 // ... precision is the same as the format.
-var parseRelativeDate = function(form) {
+var parseRelativeDate = function(form, options) {
   // give the date the values of now by default
       var now = new Date();
       var d = now.getDate();
@@ -140,7 +140,7 @@ var parseRelativeDate = function(form) {
       var h = now.getHours(), mm, s;
 
   // read in components and render based on format
-  var format = userOptions.format||options.format;
+  var format = options.format;
   var parts = form.split(':');
   if( format.indexOf('dd') == 0 ) {
       d = parts[0];
@@ -205,7 +205,7 @@ jQuery.fn.countdown = function(userOptions) {
   // if an endTime is provided...
   if( userOptions.endTime ) {
     // calculate the difference between endTime and present time
-    var endDate = userOptions.endTime instanceof Date ? userOptions.endTime : parseRelativeDate(userOptions.endTime);
+    var endDate = userOptions.endTime instanceof Date ? userOptions.endTime : parseRelativeDate(userOptions.endTime, options);
   	var diff = endDate.getTime() - (new Date()).getTime();
   	// and set that as the startTime
     userOptions.startTime = formatCompute(new Date(diff), options);
