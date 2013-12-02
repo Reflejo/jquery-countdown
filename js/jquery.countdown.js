@@ -133,11 +133,11 @@ var moveDigit = function(elem, options) {
 // ... precision is the same as the format.
 var parseRelativeDate = function(form, options) {
   // give the date the values of now by default
-      var now = new Date();
-      var d = now.getDate();
-      var m = now.getMonth() + 1;
-      var y = now.getFullYear();
-      var h = now.getHours(), mm, s;
+  var now = new Date();
+  var d = now.getDate();
+  var m = now.getMonth() + 1;
+  var y = now.getFullYear();
+  var h = now.getHours(), mm, s;
 
   // read in components and render based on format
   var format = options.format;
@@ -201,15 +201,16 @@ jQuery.fn.countdown = function(userOptions) {
     image: "digits.png",
     continuous: false
   };
+  $.extend(options, userOptions);
 
   // if an endTime is provided...
   if( userOptions.endTime ) {
     // calculate the difference between endTime and present time
     var endDate = userOptions.endTime instanceof Date ? userOptions.endTime : parseRelativeDate(userOptions.endTime, options);
-  	var diff = endDate.getTime() - (new Date()).getTime();
+    var diff = endDate.getTime() - (new Date()).getTime();
   	// and set that as the startTime
     userOptions.startTime = formatCompute(new Date(diff), options);
-	delete userOptions.endTime;
+    delete userOptions.endTime;
   }
   $.extend(options, userOptions);
   createDigits(this, options);
