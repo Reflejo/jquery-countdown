@@ -3,7 +3,8 @@
 jQuery Countdown is a countdown library with an amazing animation. Take a look
 at the [demonstration](http://reflejo.github.com/jquery-countdown/)
 
-Now you can download the PSD file [here](https://github.com/Reflejo/jquery-countdown/blob/master/img/digits.psd).
+Now you can download the PSD file
+[here](https://github.com/Reflejo/jquery-countdown/blob/master/img/digits.psd).
 
 ### Basic usage:
 
@@ -65,8 +66,8 @@ Did I mention that js code weighs just **2.8 KB**?
 
 ### Developers
 
-- Martín Conte Mac Donell <Reflejo@gmail.com> - [@fz](https://twitter.com/fz)
-- [Matt Neary](mattneary.com) <neary.matt@gmail.com>
+- Martín Conte Mac Donell - <Reflejo@gmail.com> - [@fz](https://twitter.com/fz)
+- [Matt Neary](http://mattneary.com) - <neary.matt@gmail.com>
 
 ### Demo
 
