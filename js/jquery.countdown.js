@@ -13,6 +13,8 @@ var createDigits = function(where, options) {
   // Iterate each startTime digit, if it is not a digit
   // we'll asume that it's a separator
   var mFirstPos, sFirstPos;
+  // reset digits array.
+  digits = [];
   for (var i = 0; i < options.startTime.length; i++) {
     if (parseInt(options.startTime[i]) >= 0) {
       elem = $('<div id="cnt_' + counter + '" class="cntDigit" />').css({
