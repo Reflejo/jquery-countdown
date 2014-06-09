@@ -185,7 +185,7 @@ var formatCompute = function(d, options) {
 };
 
 // add leading zeros
-var pad = function(x){return (1e15+""+x).substr(-2)};
+var pad = function(x){return (1e15+""+x).slice(-2)};
 
 var digits = [];
 var intervals = [];
