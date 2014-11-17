@@ -173,11 +173,27 @@ var parseRelativeDate = function(form, options) {
 // convert a date object to the format specified
 var formatCompute = function(d, options) {
       var format = options.format;
-      var parse = {
-	d: d.getUTCDate() - 1,
+      /*var parse = {
+	d: d.getUTCDate() - 1,  this is wrong with the entime larger than 1 month: for example now is Nov 11 2014; 
+				Endtime is Dec 15 2014, your getUTCDate only return 5 some thing like that
 	h: d.getUTCHours(),
 	m: d.getUTCMinutes(),
 	s: d.getUTCSeconds()
+      };*/ 
+      
+      var milisecs = d.getTime();
+      var d = Math.floor(milisecs/86400000);
+      milisecs = milisecs%86400000; //Remaining milisecs
+      var h = Math.floor(milisecs/3600000);
+      milisecs = milisecs%3600000; //Remaining milisecs
+      var m = Math.floor(milisecs/60000);
+      milisecs = milisecs%60000; //Remaining milisecs
+      var s = Math.floor(milisecs/1000);
+      var parse = {
+        d: d,   
+        h: h,           
+        m: m,
+        s: s
       };
       return format.replace(/(dd|hh|mm|ss)/g, function($0, form) {
 	      return pad(parse[form[0]]);
