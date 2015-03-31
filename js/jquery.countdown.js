@@ -174,7 +174,7 @@ var parseRelativeDate = function(form, options) {
 var formatCompute = function(d, options) {
       var format = options.format;
       var parse = {
-	d: d.getUTCDate() - 1,
+	d: Math.floor( ( d - new Date( d.getFullYear(), 0, 1 ) ) / ( 1000 * 60 * 60 * 24 ) ),
 	h: d.getUTCHours(),
 	m: d.getUTCMinutes(),
 	s: d.getUTCSeconds()
