@@ -189,21 +189,22 @@ var pad = function(x){return (1e15+""+x).slice(-2)};
 
 var digits = [];
 var intervals = [];
+
+// Default options
+var options = {
+  stepTime: 60,
+  // startTime and format MUST follow the same format.
+  // also you cannot specify a format unordered (e.g. hh:ss:mm is wrong)
+  format: "dd:hh:mm:ss",
+  startTime: "01:12:32:55",
+  digitImages: 6,
+  digitWidth: 67,
+  digitHeight: 90,
+  timerEnd: function(){},
+  image: "digits.png",
+  continuous: false
+};
 jQuery.fn.countdown = function(userOptions) {
-  // Default options
-  var options = {
-    stepTime: 60,
-    // startTime and format MUST follow the same format.
-    // also you cannot specify a format unordered (e.g. hh:ss:mm is wrong)
-    format: "dd:hh:mm:ss",
-    startTime: "01:12:32:55",
-    digitImages: 6,
-    digitWidth: 67,
-    digitHeight: 90,
-    timerEnd: function(){},
-    image: "digits.png",
-    continuous: false
-  };
   $.extend(options, userOptions);
 
   // if an endTime is provided...
@@ -219,7 +220,9 @@ jQuery.fn.countdown = function(userOptions) {
   if (this.length) {
     clearInterval(intervals.main);
     createDigits(this, options);
-    intervals.main = setInterval(function(){ moveDigit(digits.length - 1, options); },
-                                 1000);
   }
+};
+jQuery.fn.start = function() {
+  intervals.main = setInterval(function(){ moveDigit(digits.length - 1, options); },
+      1000);
 };
