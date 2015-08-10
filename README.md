@@ -62,7 +62,21 @@ An absolute date:
   });
 ```
 
-Did I mention that js code weighs just **2.8 KB**?
+Start manually the counter:
+
+```javascript
+  $('#counter').countdown({
+    image: "digits.png",
+    format: "mm:ss",
+    endTime: new Date('07/16/13 05:00:00'),
+	start: false
+  });
+  $("#startButton").click(function (e) {
+	$('#counter').start();
+  });
+```
+
+Did I mention that js code weighs just **4.0 KB**?
 
 ### Developers
 

@@ -187,24 +187,34 @@ var formatCompute = function(d, options) {
 // add leading zeros
 var pad = function(x){return (1e15+""+x).slice(-2)};
 
+var start = function (element) {
+	if (element.attr('started') != 'true') {	
+		element.attr('started', true)
+		intervals.main = setInterval(function () {
+				moveDigit(digits.length - 1, element.data('options'));
+			},
+			1000);
+	}
+};
+
 var digits = [];
 var intervals = [];
-
-// Default options
-var options = {
-  stepTime: 60,
-  // startTime and format MUST follow the same format.
-  // also you cannot specify a format unordered (e.g. hh:ss:mm is wrong)
-  format: "dd:hh:mm:ss",
-  startTime: "01:12:32:55",
-  digitImages: 6,
-  digitWidth: 67,
-  digitHeight: 90,
-  timerEnd: function(){},
-  image: "digits.png",
-  continuous: false
-};
 jQuery.fn.countdown = function(userOptions) {
+  // Default options
+  var options = {
+    stepTime: 60,
+    // startTime and format MUST follow the same format.
+    // also you cannot specify a format unordered (e.g. hh:ss:mm is wrong)
+    format: "dd:hh:mm:ss",
+    startTime: "01:12:32:55",
+    digitImages: 6,
+    digitWidth: 67,
+    digitHeight: 90,
+    timerEnd: function(){},
+    image: "digits.png",
+    continuous: false,
+	start: true
+  };
   $.extend(options, userOptions);
 
   // if an endTime is provided...
@@ -220,9 +230,14 @@ jQuery.fn.countdown = function(userOptions) {
   if (this.length) {
     clearInterval(intervals.main);
     createDigits(this, options);
+	this.data('options', options);
+	if (options.start === true) {
+		start(this);
+	}
   }
 };
-jQuery.fn.start = function() {
-  intervals.main = setInterval(function(){ moveDigit(digits.length - 1, options); },
-      1000);
+
+// start the counter
+jQuery.fn.start = function () {
+	start(this);
 };
